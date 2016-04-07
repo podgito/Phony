@@ -3,7 +3,7 @@ Generate test data for your classes.
 
 #Basic usage
 
-        var generator = new DataGenerator<SampleTestClass>(cfg =>
+        var generator = new PhonyGenerator<SampleTestClass>(cfg =>
         {
             cfg.Setup(x => x.IntegerProp, integerValue);
             cfg.Setup(x => x.StringProp, () => SomeFunctionReturningAString());
