@@ -1,29 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DataGenerator
+namespace Phony
 {
-    public class DataGenerator<TModel> where TModel : new()
+    public class PhonyGenerator<TModel> where TModel : new()
     {
+        private Dictionary<PropertyInfo, Func<object>> _configuration;
 
-        Dictionary<PropertyInfo, Func<object>> _configuration;
-
-        protected DataGenerator()
+        protected PhonyGenerator()
         {
             _configuration = new Dictionary<PropertyInfo, Func<object>>();
         }
 
-
-        public DataGenerator(Action<DataGenerator<TModel>> configuration) : this()
+        public PhonyGenerator(Action<PhonyGenerator<TModel>> configuration) : this()
         {
             configuration(this);
         }
-
 
         public void Setup<TProp>(Expression<Func<TModel, TProp>> modelProperty, TProp constantValue)
         {
@@ -36,13 +30,12 @@ namespace DataGenerator
             Expression expressionToCheck = modelProperty.Body;
             var memberExpression = ((MemberExpression)expressionToCheck);
 
-            // 2) save 
+            // 2) save
             _configuration.Add((PropertyInfo)memberExpression.Member, () => someFunction());
         }
 
         public IEnumerable<TModel> Generate(int count)
         {
-
             if (count < 0)
             {
                 throw new ArgumentException("Count must be zero or greater");
@@ -52,17 +45,15 @@ namespace DataGenerator
             {
                 var x = new TModel();
 
-                foreach(var kvp in _configuration)
+                foreach (var kvp in _configuration)
                 {
                     var propInfo = kvp.Key;
 
                     propInfo.SetValue(x, kvp.Value());
                 }
 
-
                 yield return x;
             }
         }
-
     }
 }

@@ -1,21 +1,20 @@
-﻿using DataGenerator.Tests.Utility;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Phony.Tests.Utility;
 using Shouldly;
 using System;
 using System.Linq;
 
-namespace DataGenerator.Tests
+namespace Phony.Tests
 {
     [TestFixture]
-    public class DataGeneratorTest
+    public class PhonyGeneratorTest
     {
-
         [TestCase(0)]
         [TestCase(1)]
         [TestCase(1)]
         public void Generate_Returns_Correct_Number_Of_Items(int count)
         {
-            var generator = new DataGenerator<SampleTestClass>(cfg=> { });
+            var generator = new PhonyGenerator<SampleTestClass>(cfg => { });
 
             //Act
             var items = generator.Generate(count);
@@ -28,7 +27,7 @@ namespace DataGenerator.Tests
         [TestCase(-10)]
         public void Generate_Throws_ArgumentException_For_Invalid_Counts(int count)
         {
-            var generator = new DataGenerator<SampleTestClass>(cfg => { });
+            var generator = new PhonyGenerator<SampleTestClass>(cfg => { });
 
             Assert.Throws<ArgumentException>(() => generator.Generate(count).ToList());
         }
@@ -41,7 +40,7 @@ namespace DataGenerator.Tests
             var stringValue = "hello test data";
             var complexValue = new SampleTestClass();
 
-            var generator = new DataGenerator<SampleTestClass>(cfg =>
+            var generator = new PhonyGenerator<SampleTestClass>(cfg =>
             {
                 cfg.Setup(x => x.IntegerProp, integerValue);
                 cfg.Setup(x => x.StringProp, stringValue);
@@ -50,7 +49,6 @@ namespace DataGenerator.Tests
 
             //Act
             var items = generator.Generate(100);
-
 
             //Assert
             items.ShouldAllBe(x => x.IntegerProp == integerValue);
@@ -61,10 +59,7 @@ namespace DataGenerator.Tests
         [Test]
         public void Generate_Sets_Function_Results()
         {
-            var generator = new DataGenerator<SampleTestClass>(cfg => { });
-
+            var generator = new PhonyGenerator<SampleTestClass>(cfg => { });
         }
-
-
     }
 }

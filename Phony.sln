@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGenerator", "src\DataGenerator\DataGenerator.csproj", "{FB1A2301-619C-4DE2-9D3C-FB781BF4540B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phony", "src\Phony\Phony.csproj", "{FB1A2301-619C-4DE2-9D3C-FB781BF4540B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGenerator.Tests", "Tests\DataGenerator.Tests\DataGenerator.Tests.csproj", "{2A79EF11-67F3-4BFB-9B0F-E8931331F72D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phony.Tests", "Tests\Phony.Tests\Phony.Tests.csproj", "{2A79EF11-67F3-4BFB-9B0F-E8931331F72D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
