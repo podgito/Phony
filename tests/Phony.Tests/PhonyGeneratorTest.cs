@@ -59,7 +59,18 @@ namespace Phony.Tests
         [Test]
         public void Generate_Sets_Function_Results()
         {
-            var generator = new PhonyGenerator<SampleTestClass>(cfg => { });
+            //Arrange
+            Func<int> intFunc = () => 1 + 2;
+
+            var generator = new PhonyGenerator<SampleTestClass>(cfg => {
+                cfg.Setup(x => x.IntegerProp, intFunc);
+            });
+
+            //Act
+            var items = generator.Generate(1);
+
+            //Assert
+            items.ShouldAllBe(x => x.IntegerProp == 3);
         }
     }
 }
