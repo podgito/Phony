@@ -25,5 +25,19 @@ namespace Phony.Tests.Data
             generator.Generate().ShouldNotBeNullOrEmpty();
         }
 
+        [Test]
+        public void Generate_Different_Name_With_Each_Call()
+        {
+            //act
+            var name1 = generator.Generate();
+            var name2 = generator.Generate();
+
+            //Assert
+            name1.ShouldNotBeSameAs(name2);
+
+            Console.WriteLine(name1);
+            Console.WriteLine(name2);
+        }
+
     }
 }

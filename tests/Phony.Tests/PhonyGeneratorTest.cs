@@ -3,6 +3,7 @@ using Phony.Tests.Utility;
 using Shouldly;
 using System;
 using System.Linq;
+using Phony.Data;
 
 namespace Phony.Tests
 {
@@ -71,6 +72,26 @@ namespace Phony.Tests
 
             //Assert
             items.ShouldAllBe(x => x.IntegerProp == 3);
+        }
+
+        [Test]
+        public void Generate_Sets_Extension_Function_Results()
+        {
+            var generator = new PhonyGenerator<SampleTestClass>(cfg =>
+            {
+                cfg.Setup(x => x.StringProp, cfg.FirstName(0));
+            });
+
+            //Act
+            var items = generator.Generate(3);
+
+            //Assert
+            items.ShouldAllBe(x=> !string.IsNullOrEmpty(x.StringProp));
+
+            foreach(var item in items)
+            {
+                Console.WriteLine(item.StringProp);
+            }
         }
     }
 }

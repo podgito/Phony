@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Data\EmbeddedFileLineReader.cs" />
     <Compile Include="Data\FirstNameGenerator.cs" />
+    <Compile Include="Data\PhonyGeneratorConfigurationExtensions.cs" />
     <Compile Include="Data\RandomFileLineReader.cs" />
     <Compile Include="PhonyGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
