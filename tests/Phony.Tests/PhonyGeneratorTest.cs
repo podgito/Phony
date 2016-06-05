@@ -79,14 +79,15 @@ namespace Phony.Tests
         {
             var generator = new PhonyGenerator<SampleTestClass>(cfg =>
             {
-                cfg.Setup(x => x.StringProp, cfg.FirstName(0));
+                cfg.Setup(x => x.StringProp, cfg.FirstName);
             });
 
             //Act
-            var items = generator.Generate(3);
+            var items = generator.Generate(2).ToList();
 
             //Assert
             items.ShouldAllBe(x=> !string.IsNullOrEmpty(x.StringProp));
+            items.First().StringProp.ShouldNotBeSameAs(items.Skip(1).First().StringProp);
 
             foreach(var item in items)
             {

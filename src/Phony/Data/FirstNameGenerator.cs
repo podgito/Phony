@@ -38,9 +38,8 @@ namespace Phony.Data
         /// </summary>
         /// <typeparam name="TModel"></typeparam>
         /// <param name="generatorConfig"></param>
-        /// <param name="nullPercentage">Percentage of names returned as null (0-100)</param>
         /// <returns></returns>
-        public static string FirstName<TModel>(this PhonyGenerator<TModel> generatorConfig, int nullPercentage) where TModel : new()
+        public static string FirstName<TModel>(this PhonyGenerator<TModel> generatorConfig) where TModel : new()
         {
             return new FirstNameGenerator().Generate();
         }
