@@ -34,6 +34,8 @@ namespace Phony.Tests.Data
 
             //Assert
             name1.ShouldNotBeSameAs(name2);
+            name1.ShouldNotBeNull();
+            name2.ShouldNotBeNull();
 
             Console.WriteLine(name1);
             Console.WriteLine(name2);

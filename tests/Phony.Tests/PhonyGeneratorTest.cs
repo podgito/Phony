@@ -49,7 +49,7 @@ namespace Phony.Tests
             });
 
             //Act
-            var items = generator.Generate(100);
+            var items = generator.Generate(100).ToList();
 
             //Assert
             items.ShouldAllBe(x => x.IntegerProp == integerValue);
@@ -63,7 +63,8 @@ namespace Phony.Tests
             //Arrange
             Func<int> intFunc = () => 1 + 2;
 
-            var generator = new PhonyGenerator<SampleTestClass>(cfg => {
+            var generator = new PhonyGenerator<SampleTestClass>(cfg =>
+            {
                 cfg.Setup(x => x.IntegerProp, intFunc);
             });
 
@@ -86,13 +87,31 @@ namespace Phony.Tests
             var items = generator.Generate(2).ToList();
 
             //Assert
-            items.ShouldAllBe(x=> !string.IsNullOrEmpty(x.StringProp));
+            items.ShouldAllBe(x => !string.IsNullOrEmpty(x.StringProp));
             items.First().StringProp.ShouldNotBeSameAs(items.Skip(1).First().StringProp);
 
-            foreach(var item in items)
+        }
+
+        [Test]
+        public void Generate_Sets_All_Properties_To_Null_When_NullPercentage_Set_To_100()
+        {
+            //Arrange
+            var generator = new PhonyGenerator<SampleTestClass>(cfg =>
+            {
+                cfg.Setup(x => x.StringProp, cfg.FirstName, 100);
+            });
+
+            //Act
+            var items = generator.Generate(1).ToList();
+
+            //Assert
+            items.ShouldAllBe(x => x.StringProp == null);
+
+            foreach (var item in items)
             {
                 Console.WriteLine(item.StringProp);
             }
+
         }
     }
 }

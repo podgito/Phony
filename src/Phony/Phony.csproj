@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\PropertyValueConfiguration.cs" />
     <Compile Include="Data\EmbeddedFileLineReader.cs" />
     <Compile Include="Data\FirstNameGenerator.cs" />
     <Compile Include="Data\PhonyGeneratorConfigurationExtensions.cs" />

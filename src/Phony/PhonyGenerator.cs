@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Phony.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -11,11 +12,11 @@ namespace Phony
     /// <typeparam name="TModel"></typeparam>
     public class PhonyGenerator<TModel> where TModel : new()
     {
-        private Dictionary<PropertyInfo, Func<object>> _configuration;
+        private Dictionary<PropertyInfo, PropertyValueConfiguration> _configuration;
 
         private PhonyGenerator()
         {
-            _configuration = new Dictionary<PropertyInfo, Func<object>>();
+            _configuration = new Dictionary<PropertyInfo, PropertyValueConfiguration>();
         }
 
         /// <summary>
@@ -46,12 +47,24 @@ namespace Phony
         /// <param name="someFunction">The function of which the result will be set to the value of the property</param>
         public void Setup<TProp>(Expression<Func<TModel, TProp>> modelProperty, Func<TProp> someFunction)
         {
+            Setup(modelProperty, someFunction, nullPerentage: 0);
+        }
+
+        /// <summary>
+        /// Setup how this property value will be set to the result of a function
+        /// </summary>
+        /// <typeparam name="TProp"></typeparam>
+        /// <param name="modelProperty">The property to be assigned to.</param>
+        /// <param name="someFunction">The function of which the result will be set to the value of the property</param>
+        /// <param name="nullPerentage">The percentage (0-100) of instances set to null (or default of TProp)</param>
+        public void Setup<TProp>(Expression<Func<TModel, TProp>> modelProperty, Func<TProp> someFunction, int nullPerentage)
+        {
             // 1) Get the member info from expression
             Expression expressionToCheck = modelProperty.Body;
             var memberExpression = ((MemberExpression)expressionToCheck);
 
             // 2) save
-            _configuration.Add((PropertyInfo)memberExpression.Member, () => someFunction());
+            _configuration.Add((PropertyInfo)memberExpression.Member, new PropertyValueConfiguration(() => someFunction(), nullPerentage));
         }
 
         /// <summary>
@@ -74,11 +87,25 @@ namespace Phony
                 {
                     var propInfo = kvp.Key;
 
-                    propInfo.SetValue(x, kvp.Value());
+                    var step = CalculateNullStep(count, kvp.Value.NullPercentage);
+
+                    var value = i + 1 % step == 0 ? GetDefault(propInfo.PropertyType) : kvp.Value.ValueFunction();
+                    propInfo.SetValue(x, value);
                 }
 
                 yield return x;
             }
+        }
+
+        private object GetDefault(Type type)
+        {
+            return type.IsValueType ? Activator.CreateInstance(type) : null;
+        }
+
+        private int CalculateNullStep(int totalCount, int nullPercentage)
+        {
+            if (nullPercentage == 0) return int.MaxValue; //Ensure it never happens
+            return (int)(totalCount / (nullPercentage / 100.0));
         }
     }
 }
