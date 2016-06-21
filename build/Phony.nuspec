@@ -15,8 +15,8 @@
     <tags>Unit, testing, mock</tags>
   </metadata>
   <files>
-    <file src="..\Phony\bin\Release\Phony.dll" target="lib\net45\Phony.dll" />
-    <file src="..\Phony\bin\Release\Phony.pdb" target="lib\net45\Phony.pdb" />
-    <file src="..\Phony\bin\Release\Phony.XML" target="lib\net45\Phony.XML" />
+    <file src="..\src\Phony\bin\Release\Phony.dll" target="lib\net45\Phony.dll" />
+    <file src="..\src\Phony\bin\Release\Phony.pdb" target="lib\net45\Phony.pdb" />
+    <file src="..\src\Phony\bin\Release\Phony.XML" target="lib\net45\Phony.XML" />
   </files>
 </package>
