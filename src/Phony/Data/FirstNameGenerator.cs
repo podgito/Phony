@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Phony.Data
+﻿namespace Phony.Data
 {
     /// <summary>
     /// Generates
@@ -34,7 +28,7 @@ namespace Phony.Data
     public static class FirstNameGeneratorConfigurationExtensions
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="TModel"></typeparam>
         /// <param name="generatorConfig"></param>
@@ -43,7 +37,5 @@ namespace Phony.Data
         {
             return new FirstNameGenerator().Generate();
         }
-
-
     }
 }

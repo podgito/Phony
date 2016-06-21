@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Phony.Data
+﻿namespace Phony.Data
 {
-    class PhonyGeneratorConfigurationExtensions
+    internal class PhonyGeneratorConfigurationExtensions
     {
     }
 }
