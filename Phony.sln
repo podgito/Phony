@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phony", "src\Phony\Phony.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phony.Tests", "Tests\Phony.Tests\Phony.Tests.csproj", "{2A79EF11-67F3-4BFB-9B0F-E8931331F72D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C448521E-2E90-4D85-8DB1-32207D8B416C}"
+	ProjectSection(SolutionItems) = preProject
+		build\Phony.nuspec = build\Phony.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

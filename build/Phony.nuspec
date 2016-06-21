@@ -1,0 +1,22 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Phony</id>
+    <version>0.1.0</version>
+    <authors>Padraic Duffy</authors>
+    <owners>Padraic Duffy</owners>
+    <description>Generate test data for your classes</description>
+    <releaseNotes>Alpha</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <!--<licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>-->
+    <projectUrl>https://github.com/podgito/Phony</projectUrl>
+    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <tags>Unit, testing, mock</tags>
+  </metadata>
+  <files>
+    <file src="..\Phony\bin\Release\Phony.dll" target="lib\net45\Phony.dll" />
+    <file src="..\Phony\bin\Release\Phony.pdb" target="lib\net45\Phony.pdb" />
+    <file src="..\Phony\bin\Release\Phony.XML" target="lib\net45\Phony.XML" />
+  </files>
+</package>
