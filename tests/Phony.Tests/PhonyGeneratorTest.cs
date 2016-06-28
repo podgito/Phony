@@ -98,11 +98,11 @@ namespace Phony.Tests
             //Arrange
             var generator = new PhonyGenerator<SampleTestClass>(cfg =>
             {
-                cfg.Setup(x => x.StringProp, cfg.FirstName, 100);
+                cfg.Setup(x => x.StringProp, DataSources.FirstNames, 100);
             });
 
             //Act
-            var items = generator.Generate(1).ToList();
+            var items = generator.Generate(10).ToList();
 
             //Assert
             items.ShouldAllBe(x => x.StringProp == null);
@@ -112,6 +112,28 @@ namespace Phony.Tests
                 Console.WriteLine(item.StringProp);
             }
 
+        }
+
+        [Test]
+        public void Generate_Sets_Half_Of_Properties_To_Null_When_NullPercentage_Set_To_50()
+        {
+            //Arrange
+            var generator = new PhonyGenerator<SampleTestClass>(cfg =>
+            {
+                cfg.Setup(x => x.StringProp, DataSources.FirstNames, 50);
+            });
+
+            //Act
+            var items = generator.Generate(10).ToList();
+
+            //Assert
+            items.Where(i => i.StringProp == null).Count().ShouldBe(5);
+            items.Where(i => !string.IsNullOrEmpty(i.StringProp)).Count().ShouldBe(5);
+
+            foreach (var item in items)
+            {
+                Console.WriteLine(item.StringProp);
+            }
         }
     }
 }

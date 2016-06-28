@@ -87,9 +87,10 @@ namespace Phony
                 {
                     var propInfo = kvp.Key;
 
-                    var step = CalculateNullStep(count, kvp.Value.NullPercentage);
+                    var step = CalculateNullStep(kvp.Value.NullPercentage);
 
-                    var value = i + 1 % step == 0 ? GetDefault(propInfo.PropertyType) : kvp.Value.ValueFunction();
+                    //Set every step number properties to null
+                    var value = (i + 1) % step == 0 ? GetDefault(propInfo.PropertyType) : kvp.Value.ValueFunction();
                     propInfo.SetValue(x, value);
                 }
 
@@ -102,10 +103,10 @@ namespace Phony
             return type.IsValueType ? Activator.CreateInstance(type) : null;
         }
 
-        private int CalculateNullStep(int totalCount, int nullPercentage)
+        private int CalculateNullStep(int nullPercentage)
         {
-            if (nullPercentage == 0) return int.MaxValue; //Ensure it never happens
-            return (int)(totalCount / (nullPercentage / 100.0));
+            if (nullPercentage == 0) return int.MaxValue; //Avoid divide by zero exceptions
+            return 100 / nullPercentage;
         }
     }
 }
