@@ -1,8 +1,11 @@
 ﻿using Phony.Configuration;
+using Phony.Internals;
+using Phony.Internals.RandomTypeData;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Linq;
 
 namespace Phony
 {
@@ -12,11 +15,13 @@ namespace Phony
     /// <typeparam name="TModel"></typeparam>
     public class PhonyGenerator<TModel> where TModel : new()
     {
-        private Dictionary<PropertyInfo, PropertyValueConfiguration> _configuration;
+        private Dictionary<PropertyInfo, PropertyValueConfiguration> _propertyConfiguration;
+        private List<ITypeValueGenerator> _typeValueGenerators;
 
         private PhonyGenerator()
         {
-            _configuration = new Dictionary<PropertyInfo, PropertyValueConfiguration>();
+            _propertyConfiguration = new Dictionary<PropertyInfo, PropertyValueConfiguration>();
+            _typeValueGenerators = new List<ITypeValueGenerator>();
         }
 
         /// <summary>
@@ -64,7 +69,7 @@ namespace Phony
             var memberExpression = ((MemberExpression)expressionToCheck);
 
             // 2) save
-            _configuration.Add((PropertyInfo)memberExpression.Member, new PropertyValueConfiguration(() => someFunction(), nullPerentage));
+            _propertyConfiguration.Add((PropertyInfo)memberExpression.Member, new PropertyValueConfiguration(() => someFunction(), nullPerentage));
         }
 
         /// <summary>
@@ -81,9 +86,13 @@ namespace Phony
 
             for (int i = 0; i < count; i++)
             {
-                var x = new TModel();
+                var model = new TModel();
 
-                foreach (var kvp in _configuration)
+                
+                SetPropertiesFromGlobalSettings(model);
+
+
+                foreach (var kvp in _propertyConfiguration)
                 {
                     var propInfo = kvp.Key;
 
@@ -91,10 +100,42 @@ namespace Phony
 
                     //Set every step number properties to null
                     var value = (i + 1) % step == 0 ? GetDefault(propInfo.PropertyType) : kvp.Value.ValueFunction();
-                    propInfo.SetValue(x, value);
+                    propInfo.SetValue(model, value);
                 }
 
-                yield return x;
+                yield return model;
+            }
+        }
+
+        private void SetPropertiesFromGlobalSettings(TModel model)
+        {
+            // TODO: 
+            // Cycle through model properties
+            // Check for matching typeValueGenerates
+            // if match, set the property
+
+            var properties = model.GetType().GetProperties().Where(p => p.CanWrite);
+
+            foreach (var property in properties)
+            {
+                var valueGenerator = _typeValueGenerators.Where(g => g.IsMatch(property.PropertyType)).FirstOrDefault();
+
+                if(valueGenerator != null)
+                {
+                    //TODO: Set the property
+                }
+            }
+        }
+
+
+        internal void AddGlobalValueGenerator(ITypeValueGenerator typeValueGenerator)
+        {
+            //ensure no duplicates
+            var isDuplicate = _typeValueGenerators.Where(g => g.GetType() == typeValueGenerator.GetType()).Any();
+
+            if (!isDuplicate)
+            {
+                _typeValueGenerators.Add(typeValueGenerator); 
             }
         }
 

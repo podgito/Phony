@@ -53,6 +53,10 @@
     <Compile Include="Data\FirstNameGenerator.cs" />
     <Compile Include="Data\PhonyGeneratorConfigurationExtensions.cs" />
     <Compile Include="Data\RandomFileLineReader.cs" />
+    <Compile Include="Extensions\RandomDataExtensions.cs" />
+    <Compile Include="Internals\ITypeValueGenerator.cs" />
+    <Compile Include="Internals\RandomTypeData\RandomIntegerValueGenerator.cs" />
+    <Compile Include="Internals\RandomTypeData\RandomTypeValueGeneratorBase.cs" />
     <Compile Include="PhonyGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
