@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\FirstNameGeneratorTest.cs" />
+    <Compile Include="Internals\RandomTypeData\RandomIntegerValueGeneratorTest.cs" />
     <Compile Include="PhonyGeneratorSetupRandomDataTest.cs" />
     <Compile Include="PhonyGeneratorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
