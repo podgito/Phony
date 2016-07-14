@@ -57,6 +57,7 @@
     <Compile Include="Internals\ITypeValueGenerator.cs" />
     <Compile Include="Internals\RandomTypeData\RandomIntegerValueGenerator.cs" />
     <Compile Include="Internals\RandomTypeData\RandomTypeValueGeneratorBase.cs" />
+    <Compile Include="Internals\RandomTypeData\RandomValueSelectorGenerator.cs" />
     <Compile Include="PhonyGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
