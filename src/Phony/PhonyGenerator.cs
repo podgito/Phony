@@ -44,6 +44,8 @@ namespace Phony
             Setup(modelProperty, () => constantValue);
         }
 
+
+
         /// <summary>
         /// Setup how this property value will be set to the result of a function
         /// </summary>
@@ -73,12 +75,30 @@ namespace Phony
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TProp"></typeparam>
+        /// <param name="modelProperty"></param>
+        /// <param name="generatorFunction"></param>
+        /// <param name="nullPercentage"></param>
+        public void Setup<TProp>(Expression<Func<TModel, TProp>> modelProperty, Func<GeneratorState, TProp> generatorFunction, int nullPercentage)
+        {
+            // 1) Get the member info from expression
+            Expression expressionToCheck = modelProperty.Body;
+            var memberExpression = ((MemberExpression)expressionToCheck);
+
+            // 2) save
+            _propertyConfiguration.Add((PropertyInfo)memberExpression.Member, new PropertyValueConfiguration(gen => generatorFunction(gen), nullPercentage));
+
+        }
+        /// <summary>
         /// Generates a number of instances of a class with the setup configuration
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
         public IEnumerable<TModel> Generate(int count)
         {
+            var state = new GeneratorState();
             if (count < 0)
             {
                 throw new ArgumentException("Count must be zero or greater");
@@ -86,10 +106,12 @@ namespace Phony
 
             for (int i = 0; i < count; i++)
             {
+                state.Index = i;
                 var model = new TModel();
 
                 
                 SetPropertiesFromGlobalSettings(model);
+
 
 
                 foreach (var kvp in _propertyConfiguration)
@@ -99,7 +121,7 @@ namespace Phony
                     var step = CalculateNullStep(kvp.Value.NullPercentage);
 
                     //Set every step number properties to null
-                    var value = (i + 1) % step == 0 ? GetDefault(propInfo.PropertyType) : kvp.Value.ValueFunction();
+                    var value = (i + 1) % step == 0 ? GetDefault(propInfo.PropertyType) : kvp.Value.ValueFunction(state);
                     propInfo.SetValue(model, value);
                 }
 

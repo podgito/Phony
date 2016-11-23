@@ -27,7 +27,7 @@ namespace Phony.Tests.Internals.RandomTypeData
             for (int i = 0; i < 100; i++)
             {
                 var value = (string)generator.GenerateValue();
-                value.ShouldBeOneOf(values);
+                value.ShouldBe(values[0]);
             }
         }
     }

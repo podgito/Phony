@@ -52,8 +52,10 @@
     <Compile Include="Data\EmbeddedFileLineReader.cs" />
     <Compile Include="Data\FirstNameGenerator.cs" />
     <Compile Include="Data\PhonyGeneratorConfigurationExtensions.cs" />
+    <Compile Include="Data\RandomValueSources.cs" />
     <Compile Include="Data\RandomFileLineReader.cs" />
     <Compile Include="Extensions\RandomDataExtensions.cs" />
+    <Compile Include="Internals\GeneratorState.cs" />
     <Compile Include="Internals\ITypeValueGenerator.cs" />
     <Compile Include="Internals\RandomTypeData\RandomIntegerValueGenerator.cs" />
     <Compile Include="Internals\RandomTypeData\RandomTypeValueGeneratorBase.cs" />

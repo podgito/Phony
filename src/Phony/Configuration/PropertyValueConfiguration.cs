@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Phony.Internals;
+using System;
 
 namespace Phony.Configuration
 {
     internal class PropertyValueConfiguration
     {
-        public Func<object> ValueFunction { get; set; }
+        public Func<GeneratorState, object> ValueFunction { get; set; }
 
         /// <summary>
         /// Percentage of nulls or defaults to be output
@@ -12,6 +13,12 @@ namespace Phony.Configuration
         public int NullPercentage { get; set; }
 
         public PropertyValueConfiguration(Func<Object> valueFunction, int nullPercentage)
+        {
+            ValueFunction = g => valueFunction;
+            NullPercentage = nullPercentage;
+        }
+
+        public PropertyValueConfiguration(Func<GeneratorState, object> valueFunction, int nullPercentage)
         {
             ValueFunction = valueFunction;
             NullPercentage = nullPercentage;
